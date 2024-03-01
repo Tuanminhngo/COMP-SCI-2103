@@ -1,3 +1,7 @@
 #include "Player.h"
 
-// No implementation needed in Player.cpp since all functionalities are declared as pure virtual functions.
+Player::Player() : Player(""){}
+Player::Player(string _name) : _name();
+
+char Player::makeMove(){};
+string Player::getName(){};
