@@ -2,20 +2,23 @@
 #define COMPUTER_H
 
 #include "Player.h"
-#include "Move.h"
 
 class Computer : public Player {
-public:
-    // Constructor
-    Computer();
+    protected:
+        std::string name; // Name of the computer player
 
-    // Implementing the Player interface
-    Move* makeMove() override; // Override the pure virtual function
-    std::string getName() const override; // Override the pure virtual function
-
-private:
-    // Generate a random move for the computer
-    Move* generateRandomMove() const;
+    public:
+        // Default constructor
+        Computer();
+        
+        // Constructor with name
+        Computer(std::string name);
+        
+        // Make a move (override from Player)
+        Move* makeMove();
+        
+        // Get the name of the computer player (override from Player)
+        std::string getName();
 };
 
-#endif // COMPUTER_H
+#endif

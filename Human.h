@@ -2,19 +2,24 @@
 #define HUMAN_H
 
 #include "Player.h"
-#include <string>
 
 class Human : public Player {
-public:
-    // Constructor
-    explicit Human(const std::string& name = "Human");
+    protected:
+        std::string name; 
 
-    // Implementing the Player interface
-    Move* makeMove() override; // Override the pure virtual function
-    std::string getName() const override; // Override the pure virtual function
-
-private:
-    std::string name; // The name of the human player
+    public:
+        // Default constructor
+        Human();
+        
+        // Constructor with custom name
+        Human(std::string name);
+        
+        // Get the name of the human player (override from Player)
+        std::string getName();
+        
+        // Make a move (override from Player)
+        Move* makeMove();
+    
 };
 
-#endif // HUMAN_H
+#endif

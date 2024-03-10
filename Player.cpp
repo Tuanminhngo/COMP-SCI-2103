@@ -1,4 +1,4 @@
 #include "Player.h"
+#include <iostream>
 
-// Empty implementation for the base class
-// The derived classes will provide the actual implementation
+Player::~Player(){} //destructor

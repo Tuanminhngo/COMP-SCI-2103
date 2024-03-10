@@ -2,19 +2,21 @@
 #define PLAYER_H
 
 #include <string>
-
-class Move; // Forward declaration
+#include "Move.h"
 
 class Player {
-public:
-    // Destructor
-    virtual ~Player() = default;
+    protected:
+        std::string name; // Name of the player
 
-    // Virtual function to make a move
-    virtual Move* makeMove() = 0;
+    public:
+        // Virtual function for making a move 
+        virtual Move* makeMove() = 0;
 
-    // Function to get the player's name
-    virtual std::string getName() const = 0;
+        // Virtual function to get the name of the player 
+        virtual std::string getName() = 0;
+
+        // Virtual destructor 
+        virtual ~Player();
 };
 
-#endif // PLAYER_H
+#endif
