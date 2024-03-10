@@ -1,37 +1,35 @@
-// Computer.cpp
-
 #include "Computer.h"
+#include "Move.h"
+#include <cstdlib> // For rand() function
 
-Computer::Computer() {
-    // Initialize possible moves
-    possibleMoves.push_back(new RockMove());
-    possibleMoves.push_back(new PaperMove());
-    possibleMoves.push_back(new ScissorsMove());
-    possibleMoves.push_back(new RobotMove());
-    possibleMoves.push_back(new MonkeyMove());
-    possibleMoves.push_back(new PirateMove());
-    possibleMoves.push_back(new NinjaMove());
-    possibleMoves.push_back(new ZombieMove());
+// Constructor
+Computer::Computer() {}
 
-    // Seed the random engine
-    randomEngine.seed(std::random_device()());
-}
-
-Computer::~Computer() {
-    // Clean up allocated moves
-    for (Move* move : possibleMoves) {
-        delete move;
-    }
-}
-
+// Implementation of the makeMove function
 Move* Computer::makeMove() {
-    // Randomly choose a move
-    std::uniform_int_distribution<size_t> distribution(0, possibleMoves.size() - 1);
-    size_t index = distribution(randomEngine);
-
-    return possibleMoves[index];
+    // Computer plays randomly
+    return generateRandomMove();
 }
 
-std::string Computer::getName() {
+// Implementation of the getName function
+std::string Computer::getName() const {
     return "Computer";
+}
+
+// Generate a random move for the computer
+Move* Computer::generateRandomMove() const {
+    // Generate a random number between 0 and 7 (inclusive)
+    int randomMove = rand() % 8;
+
+    switch (randomMove) {
+        case 0: return new Rock();
+        case 1: return new Paper();
+        case 2: return new Scissors();
+        case 3: return new Robot();
+        case 4: return new Monkey();
+        case 5: return new Pirate();
+        case 6: return new Ninja();
+        case 7: return new Zombie();
+        default: return nullptr; // Should not happen, but handle it gracefully
+    }
 }

@@ -1,46 +1,43 @@
-// Human.cpp
-
 #include "Human.h"
+#include "Move.h"
 #include <iostream>
 
-Human::Human() {
-    // No need for initialization in this example
-}
+// Constructor sets the name of the human player
+Human::Human(const std::string& playerName) : name(playerName) {}
 
-Human::~Human() {
-    // No need for cleanup in this example
-}
-
+// Implementation of the makeMove function
 Move* Human::makeMove() {
-    // Get move input from the user
     std::string moveName;
-    std::cout << "Enter move: ";
+    std::cout << "Enter move for " << name << ": ";
     std::cin >> moveName;
 
-    // Create a move object based on user input
+    // Create the corresponding move object based on the entered name
+    // Note: This requires proper error handling for invalid input
+    // Here, I assume a simple mapping between input and move classes
     if (moveName == "Rock") {
-        return new RockMove();
+        return new Rock();
     } else if (moveName == "Paper") {
-        return new PaperMove();
+        return new Paper();
     } else if (moveName == "Scissors") {
-        return new ScissorsMove();
+        return new Scissors();
     } else if (moveName == "Robot") {
-        return new RobotMove();
+        return new Robot();
     } else if (moveName == "Monkey") {
-        return new MonkeyMove();
+        return new Monkey();
     } else if (moveName == "Pirate") {
-        return new PirateMove();
+        return new Pirate();
     } else if (moveName == "Ninja") {
-        return new NinjaMove();
+        return new Ninja();
     } else if (moveName == "Zombie") {
-        return new ZombieMove();
+        return new Zombie();
     } else {
-        // Default to RockMove if the input is not recognized
-        std::cout << "Unrecognized move. Defaulting to Rock." << std::endl;
-        return new RockMove();
+        // Invalid input, return nullptr (you might want to handle this more gracefully)
+        std::cerr << "Invalid move entered." << std::endl;
+        return nullptr;
     }
 }
 
-std::string Human::getName() {
-    return "Human";
+// Implementation of the getName function
+std::string Human::getName() const {
+    return name;
 }

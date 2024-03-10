@@ -1,18 +1,3 @@
-// #ifndef REFEREE_H
-// #define REFEREE_H
-
-// #include "Player.h"
-
-// class Referee {
-// public:
-//     Referee(); // Constructor
-//     Player* refGame(Player* player1, Player* player2); // Returns the reference to the winning player
-// };
-
-// #endif 
-
-// Referee.h
-
 #ifndef REFEREE_H
 #define REFEREE_H
 
@@ -20,16 +5,15 @@
 
 class Referee {
 public:
+    // Constructor
     Referee();
-    ~Referee();
 
+    // Match two players and return a reference to the winning player (or nullptr in case of a tie)
     Player* refGame(Player* player1, Player* player2);
 
 private:
-    bool isPlayer1Win(Player* player1, Player* player2);
-    bool isPlayer2Win(Player* player1, Player* player2);
-    bool isTie(Player* player1, Player* player2);
+    // Determine the winner of a single round
+    Player* determineWinner(Move* move1, Move* move2);
 };
 
 #endif // REFEREE_H
-

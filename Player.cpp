@@ -1,5 +1,4 @@
-// Player.cpp
-
 #include "Player.h"
 
-// No need to implement anything here for the abstract class
+// Empty implementation for the base class
+// The derived classes will provide the actual implementation
