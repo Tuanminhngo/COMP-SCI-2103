@@ -19,5 +19,5 @@ bool  Ninja:: canBeats(Move * opp_move)
     } else{
         return false;
     }
- };
+};
 
