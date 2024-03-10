@@ -1,5 +1,5 @@
 #include "Human.h"
-#include "MoveFactory.h"
+#include "MoveName.h"
 
 #include <iostream>
 
@@ -17,8 +17,8 @@ Move* Human::makeMove()
 {
     std::string move;
     std::cin >> move; 
-    MoveFactory moveFactory;
-    return moveFactory.generateMove(move);
+    MoveName MoveName;
+    return MoveName.generateMove(move);
 }
 
 // Get the name of the human player (override from Player)

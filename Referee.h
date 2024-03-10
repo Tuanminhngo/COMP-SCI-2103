@@ -2,7 +2,7 @@
 #define REFEREE_H
 
 #include "Player.h"
-#include "MoveFactory.h"
+#include "MoveName.h"
 #include "Move.h"
 #include "Robot.h"
 #include "Rock.h"
