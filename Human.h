@@ -1,19 +1,18 @@
+// Human.h
+
 #ifndef HUMAN_H
 #define HUMAN_H
 
 #include "Player.h"
-#include <string>
+#include "Move.h"
 
 class Human : public Player {
-private:
-    std::string playerName;
-
 public:
-    // Constructor with default value for name
-    Human(const std::string& name = "Human");
-    
-    char makeMove() override;
+    Human();
+    ~Human();
+
+    Move* makeMove() override;
     std::string getName() override;
 };
 
-#endif 
+#endif // HUMAN_H

@@ -1,38 +1,35 @@
-// // #include "Computer.h"
-
-// // char Computer::makeMove() override{
-// //   return 'R'
-// // }
-
-// // string Computer::getName() override{
-// //   return "Computer";
-// // }
-
-// #include "Computer.h"
-// #include <random> // for random numbers generation
-
-// ComputerPlayer::ComputerPlayer(const std::string& name) : _name(name), _move('R') {
-//   // Initialize a random move (for simplicity, always 'R' here, but could be random generation)
-//   // std::random_device rd; // Seed the random number generator (optional)
-//   // std::mt19937 gen(rd());
-//   // std::uniform_int_distribution<char> dist('R', 'S');
-//   // _move = dist(gen);
-// }
-
-// char ComputerPlayer::makeMove() override {
-//   return _move;
-// }
-
-// std::string ComputerPlayer::getName() const override {
-//   return _name;
-// }
-
 // Computer.cpp
 
 #include "Computer.h"
 
-char Computer::makeMove() {
-    return 'R'; // Computer always plays Rock
+Computer::Computer() {
+    // Initialize possible moves
+    possibleMoves.push_back(new RockMove());
+    possibleMoves.push_back(new PaperMove());
+    possibleMoves.push_back(new ScissorsMove());
+    possibleMoves.push_back(new RobotMove());
+    possibleMoves.push_back(new MonkeyMove());
+    possibleMoves.push_back(new PirateMove());
+    possibleMoves.push_back(new NinjaMove());
+    possibleMoves.push_back(new ZombieMove());
+
+    // Seed the random engine
+    randomEngine.seed(std::random_device()());
+}
+
+Computer::~Computer() {
+    // Clean up allocated moves
+    for (Move* move : possibleMoves) {
+        delete move;
+    }
+}
+
+Move* Computer::makeMove() {
+    // Randomly choose a move
+    std::uniform_int_distribution<size_t> distribution(0, possibleMoves.size() - 1);
+    size_t index = distribution(randomEngine);
+
+    return possibleMoves[index];
 }
 
 std::string Computer::getName() {
