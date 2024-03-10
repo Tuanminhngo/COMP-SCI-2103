@@ -1,5 +1,5 @@
-#ifndef MOVEFACTORY_H
-#define MOVEFACTORY_H
+#ifndef MOVENAME_H
+#define MOVENAME_H
 
 #include "Move.h"
 #include "Robot.h"
@@ -11,7 +11,7 @@
 #include "Zombie.h"
 #include "Ninja.h"
 
-class MoveFactory{
+class MoveName{
     public:
     // Generate a Move object based on the given move string
     Move * generateMove(std::string move_str);

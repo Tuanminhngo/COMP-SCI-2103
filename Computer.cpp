@@ -1,5 +1,5 @@
 #include "Computer.h"
-#include "MoveFactory.h"
+#include "MoveName.h"
 
 // Default constructor
 Computer::Computer() 
@@ -16,8 +16,8 @@ Computer::Computer(std::string name)
 // Make a move 
 Move* Computer::makeMove() 
 {
-    MoveFactory moveFactory;
-    return moveFactory.generateMove("Rock");
+    MoveName moveName;
+    return moveName.generateMove("Rock");
 }
 
 // Get the name of the computer player 

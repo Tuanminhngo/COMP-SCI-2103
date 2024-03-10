@@ -1,7 +1,7 @@
-#include "MoveFactory.h"
+#include "MoveName.h"
 
 // Generate a Move object based on the given move string
-Move * MoveFactory:: generateMove(std::string move_str)
+Move * MoveName:: generateMove(std::string move_str)
 {
     if(move_str == "Rock"){
         return new Rock();

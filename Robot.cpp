@@ -18,4 +18,4 @@ bool  Robot:: canBeats(Move * opp_move)
     } else{
         return false;
     }
- } 
+} 

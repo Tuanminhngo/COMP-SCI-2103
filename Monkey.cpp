@@ -12,7 +12,7 @@ std::string Monkey:: getName()
     return name;
 };
 
-bool  Monkey:: canBeats(Move * opp_move)
+bool Monkey:: canBeats(Move * opp_move)
 {
     if((opp_move->getName() ==  "Robot") || (opp_move->getName() ==  "Ninja")){
         return true;

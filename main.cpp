@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "Move.h"
-#include "MoveFactory.h"
+#include "MoveName.h"
 #include "Human.h"
 #include "Computer.h"
 #include "Referee.h"
