@@ -25,7 +25,7 @@
 
 
 #include "Truckloads.h"
-#include <stdexcept>
+#include <stdexcept> // for exception handling
 
 int Truckloads::numTrucks(int numCrates, int loadSize) {
   // Handle invalid input (loadSize cannot be greater than numCrates)
@@ -38,8 +38,8 @@ int Truckloads::numTrucks(int numCrates, int loadSize) {
     return 1;
   }
 
-  // Calculate the maximum number of crates that can be combined from both halves
-  int maxCombined = std::min(numCrates - (numCrates / 2), loadSize);
+  // Calculate maxCombined based on remaining crates in this half
+  int maxCombined = std::min(numCrates, loadSize);
 
   // Recursive calls for both halves (potentially adjusted based on maxCombined)
   int trucksForFirstHalf = numTrucks(std::max(0, numCrates / 2 - maxCombined), loadSize);
@@ -48,3 +48,4 @@ int Truckloads::numTrucks(int numCrates, int loadSize) {
   // Calculate total trucks needed (considering combined crates)
   return trucksForFirstHalf + trucksForSecondHalf + (maxCombined / loadSize);
 }
+
