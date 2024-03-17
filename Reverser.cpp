@@ -13,10 +13,19 @@ int Reverser::reverseDigit(int value) {
     return value;
   }
 
-  // Recursive case: extract last digit and reverse remaining digits
-  int lastDigit = value % 10;
-  int reversedRest = reverseDigit(value / 10);
-  return lastDigit * 10 + reversedRest;
+  // Use a loop to avoid potential stack overflow for large inputs
+  int reversed = 0;
+  while (value != 0) {
+    int lastDigit = value % 10;
+    // Check for overflow before multiplication
+    if (reversed > INT_MAX / 10 || (reversed == INT_MAX / 10 && lastDigit > 7)) {
+      // Overflow detected, return error indicator
+      return -1;
+    }
+    reversed = reversed * 10 + lastDigit;
+    value /= 10;
+  }
+  return reversed;
 }
 
 std::string Reverser::reverseString(std::string characters) {
