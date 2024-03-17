@@ -23,29 +23,18 @@
 //   return trucksForHalf + trucksForRemaining;
 // }
 
+// Truckloads.cpp
 
 #include "Truckloads.h"
-#include <stdexcept> // for exception handling
 
 int Truckloads::numTrucks(int numCrates, int loadSize) {
-  // Handle invalid input (loadSize cannot be greater than numCrates)
-  if (loadSize > numCrates) {
-    throw std::invalid_argument("Load size cannot be greater than the number of crates.");
-  }
-
-  // Base case: No crates or load size fits all crates
-  if (numCrates == 0 || loadSize >= numCrates) {
-    return 1;
-  }
-
-  // Calculate maxCombined based on remaining crates in this half
-  int maxCombined = std::min(numCrates, loadSize);
-
-  // Recursive calls for both halves (potentially adjusted based on maxCombined)
-  int trucksForFirstHalf = numTrucks(std::max(0, numCrates / 2 - maxCombined), loadSize);
-  int trucksForSecondHalf = numTrucks(std::max(0, numCrates - numCrates / 2 - maxCombined), loadSize);
-
-  // Calculate total trucks needed (considering combined crates)
-  return trucksForFirstHalf + trucksForSecondHalf + (maxCombined / loadSize);
+    if (numCrates <= loadSize) {
+        return 1; // If the number of crates fits in one truck, return 1
+    } else {
+        // Otherwise, recursively divide the pile into two smaller piles
+        int leftPile = numCrates / 2;
+        int rightPile = numCrates - leftPile;
+        // Recursively calculate the number of trucks needed for each smaller pile
+        return numTrucks(leftPile, loadSize) + numTrucks(rightPile, loadSize);
+    }
 }
-
