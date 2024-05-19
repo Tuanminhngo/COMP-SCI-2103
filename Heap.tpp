@@ -1,8 +1,9 @@
 #ifndef HEAP_H
 #define HEAP_H
 
-#include <cmath>  // for floor
 #include <vector>
+#include <cmath>
+#include <stdexcept>
 
 template <typename T>
 class Heap {
@@ -51,30 +52,79 @@ Heap<T>::Heap(std::vector<T> start_values) {
 }
 
 /*******************************/
+// heapify method
+/*******************************/
+
+template <typename T>
+void Heap<T>::heapify(int index) {
+  int smallest = index;
+  int left = 2 * index + 1;
+  int right = 2 * index + 2;
+
+  if (left < values.size() && values[left] < values[smallest])
+    smallest = left;
+
+  if (right < values.size() && values[right] < values[smallest])
+    smallest = right;
+
+  if (smallest != index) {
+    std::swap(values[index], values[smallest]);
+    heapify(smallest);
+  }
+}
+
+/*******************************/
 // add values to the heap
 /*******************************/
 
 template <typename T>
 void Heap<T>::insert(T value) {
-  // TODO: TO BE IMPLEMENTED
+  values.push_back(value);
+  int index = values.size() - 1;
+  int parent = (index - 1) / 2;
+
+  // Move the new value up the heap until the heap property is restored
+  while (index > 0 && values[index] < values[parent]) {
+    std::swap(values[index], values[parent]);
+    index = parent;
+    parent = (index - 1) / 2;
+  }
 }
 
 /*******************************/
-/* delete values from the heap */
+// remove value from the heap
 /*******************************/
 
 template <typename T>
 void Heap<T>::remove(T value) {
-  // TODO: TO BE IMPLEMENTED
+  auto it = std::find(values.begin(), values.end(), value);
+  if (it == values.end()) return; // Value not found
+
+  int index = std::distance(values.begin(), it);
+  values[index] = values.back();
+  values.pop_back();
+
+  if (index < values.size()) {
+    heapify(index);
+    int parent = (index - 1) / 2;
+    while (index > 0 && values[index] < values[parent]) {
+      std::swap(values[index], values[parent]);
+      index = parent;
+      parent = (index - 1) / 2;
+    }
+  }
 }
 
 /*******************************/
-// find the smallest value in the heap
+// get the minimum value from the heap
 /*******************************/
 
 template <typename T>
 T Heap<T>::getMin() {
-  // TODO: TO BE IMPLEMENTED
+  if (values.empty()) {
+    throw std::out_of_range("Heap is empty");
+  }
+  return values.front();
 }
 
 /*******************************/
