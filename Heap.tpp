@@ -1,25 +1,25 @@
 #ifndef HEAP_H
 #define HEAP_H
 
-#include <cmath>  // for floor
 #include <vector>
+#include <cmath>  // for floor
 
 template <typename T>
 class Heap {
-  private:
-    std::vector<T> values;
-    void heapify(int);
+ private:
+  std::vector<T> values;
+  void heapify(int);
 
-  public:
-    Heap();  // constructs an empty heap
+ public:
+  Heap();  // constructs an empty heap
 
   // constructs a heap with the values from the given vector
   // the type T MUST provide comparison operators <, >, ==
-    Heap(std::vector<T>);
+  Heap(std::vector<T>);
 
-    void insert(T);
-    void remove(T);
-    T getMin();
+  void insert(T);
+  void remove(T);
+  T getMin();
 };
 
 /*******************************/
@@ -45,7 +45,7 @@ Heap<T>::Heap(std::vector<T> start_values) {
   // of the parents
   int initial_parent_index = floor(values.size() / 2) - 1;
   for (int parent_index = initial_parent_index; parent_index >= 0;
-      parent_index--) {
+       parent_index--) {
     heapify(parent_index);
   }
 }
@@ -56,66 +56,53 @@ Heap<T>::Heap(std::vector<T> start_values) {
 
 template <typename T>
 void Heap<T>::insert(T value) {
-  values.push_back(value);
-  int index = values.size() - 1;
-  int parent = (index - 1) / 2;
+  values.push_back(value);  // add the new value to the end of the vector
+  int i = values.size() - 1;  // get the index of the last element
 
-  // Bubble up the inserted value to maintain heap property
-  while (index > 0 && values[index] < values[parent]) {
-    std::swap(values[index], values[parent]);
-    index = parent;
-    parent = (index - 1) / 2;
+  // bubble up until heap property is maintained
+  while (i != 0 && values[(i - 1) / 2] > values[i]) {
+    std::swap(values[i], values[(i - 1) / 2]);
+    i = (i - 1) / 2;  // move to parent index
   }
 }
 
 /*******************************/
-// remove values from the heap
+/* delete values from the heap */
 /*******************************/
 
 template <typename T>
 void Heap<T>::remove(T value) {
-  auto it = std::find(values.begin(), values.end(), value);
-  if (it != values.end()) {
-    int index = std::distance(values.begin(), it);
-    values[index] = values.back();
-    values.pop_back();
-    heapify(index);
+  int index = -1;
+  // find the index of the value to be removed
+  for (int i = 0; i < values.size(); i++) {
+    if (values[i] == value) {
+      index = i;
+      break;
+    }
   }
+
+  if (index == -1) return;  // value not found
+
+  // swap the value with the last element in the heap
+  std::swap(values[index], values[values.size() - 1]);
+
+  // remove the last element (which is now the value to be removed)
+  values.pop_back();
+
+  // heapify the heap again from the index of the removed value
+  heapify(index);
 }
 
 /*******************************/
-// get the minimum value from the heap
+// find the smallest value in the heap
 /*******************************/
 
 template <typename T>
 T Heap<T>::getMin() {
   if (!values.empty()) {
-    return values[0];
-  }
-  throw std::runtime_error("Heap is empty");
-}
-
-/*******************************/
-// heapify function to maintain the heap property
-/*******************************/
-
-template <typename T>
-void Heap<T>::heapify(int index) {
-  int smallest = index;
-  int left = 2 * index + 1;
-  int right = 2 * index + 2;
-
-  if (left < values.size() && values[left] < values[smallest]) {
-    smallest = left;
-  }
-
-  if (right < values.size() && values[right] < values[smallest]) {
-    smallest = right;
-  }
-
-  if (smallest != index) {
-    std::swap(values[index], values[smallest]);
-    heapify(smallest);
+    return values[0];  // the smallest value is at the root of the heap
+  } else {
+    throw std::runtime_error("Heap is empty");
   }
 }
 
