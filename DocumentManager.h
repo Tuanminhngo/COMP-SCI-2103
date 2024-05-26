@@ -1,28 +1,17 @@
-#ifndef DOCUMENT_MANAGER_H
-#define DOCUMENT_MANAGER_H
+#ifndef DOCUMENTMANAGER_H
+#define DOCUMENTMANAGER_H
 
-#include <string>
 #include <unordered_map>
 #include <unordered_set>
-#include <vector>
-
-class Document {
-public:
-    std::string name;
-    int id;
-    int license_limit;
-    int borrowed_count;
-
-    Document(std::string name, int id, int license_limit)
-        : name(name), id(id), license_limit(license_limit), borrowed_count(0) {}
-};
+#include <string>
+#include <utility>
 
 class DocumentManager {
 private:
-    std::unordered_map<int, Document> documentsById;
-    std::unordered_map<std::string, int> documentIdByName;
-    std::unordered_set<int> patrons;
-    std::unordered_map<int, std::unordered_set<int>> borrowedDocumentsByPatron;
+    std::unordered_map<std::string, std::pair<int, int>> documentsByName; // {name -> (id, license_limit)}
+    std::unordered_map<int, int> documentBorrowCount; // {docid -> current_borrowed_count}
+    std::unordered_set<int> patrons; // {patronID}
+    std::unordered_map<int, std::unordered_set<int>> borrowedDocuments; // {docid -> {patronIDs}}
 
 public:
     void addDocument(std::string name, int id, int license_limit);
@@ -32,4 +21,4 @@ public:
     void returnDocument(int docid, int patronID);
 };
 
-#endif // DOCUMENT_MANAGER_H
+#endif // DOCUMENTMANAGER_H

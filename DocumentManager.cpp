@@ -1,11 +1,9 @@
 #include "DocumentManager.h"
+#include <iostream>
 
 void DocumentManager::addDocument(std::string name, int id, int license_limit) {
-    if (documentsById.find(id) == documentsById.end() && documentIdByName.find(name) == documentIdByName.end()) {
-        Document newDoc(name, id, license_limit);
-        documentsById[id] = newDoc;
-        documentIdByName[name] = id;
-    }
+    documentsByName[name] = std::make_pair(id, license_limit);
+    documentBorrowCount[id] = 0;
 }
 
 void DocumentManager::addPatron(int patronID) {
@@ -13,31 +11,38 @@ void DocumentManager::addPatron(int patronID) {
 }
 
 int DocumentManager::search(std::string name) {
-    if (documentIdByName.find(name) != documentIdByName.end()) {
-        return documentIdByName[name];
+    if (documentsByName.find(name) != documentsByName.end()) {
+        return documentsByName[name].first;
     }
-    return 0;
+    return 0; // name not found
 }
 
 bool DocumentManager::borrowDocument(int docid, int patronID) {
-    if (patrons.find(patronID) == patrons.end() || documentsById.find(docid) == documentsById.end()) {
-        return false;
+    if (patrons.find(patronID) == patrons.end()) {
+        return false; // invalid patronID
     }
-    
-    Document& doc = documentsById[docid];
-    if (doc.borrowed_count < doc.license_limit) {
-        doc.borrowed_count++;
-        borrowedDocumentsByPatron[patronID].insert(docid);
-        return true;
+    if (documentBorrowCount.find(docid) == documentBorrowCount.end()) {
+        return false; // invalid docid
     }
-    return false;
+    int currentBorrowed = documentBorrowCount[docid];
+    int licenseLimit = -1;
+    for (const auto &doc : documentsByName) {
+        if (doc.second.first == docid) {
+            licenseLimit = doc.second.second;
+            break;
+        }
+    }
+    if (licenseLimit == -1 || currentBorrowed >= licenseLimit) {
+        return false; // cannot borrow, reached license limit or invalid docid
+    }
+    documentBorrowCount[docid]++;
+    borrowedDocuments[docid].insert(patronID);
+    return true;
 }
 
 void DocumentManager::returnDocument(int docid, int patronID) {
-    if (borrowedDocumentsByPatron.find(patronID) != borrowedDocumentsByPatron.end() &&
-        borrowedDocumentsByPatron[patronID].find(docid) != borrowedDocumentsByPatron[patronID].end()) {
-        
-        borrowedDocumentsByPatron[patronID].erase(docid);
-        documentsById[docid].borrowed_count--;
+    if (borrowedDocuments[docid].find(patronID) != borrowedDocuments[docid].end()) {
+        borrowedDocuments[docid].erase(patronID);
+        documentBorrowCount[docid]--;
     }
 }
